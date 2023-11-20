@@ -107,5 +107,35 @@
                     </div>
                 </div>
             </div>
+
+             <!-- Checkout Page -->
+             <div v-else>
+                <h2>Shopping Cart</h2>
+                <div v-if="cart.length > 0">
+                    <div v-for="lessonId in cart" :key="lessonId">
+                        <div v-for="lesson in lessons" v-if="lesson.id === lessonId">
+                            <h3>{{ lesson.subject }}</h3>
+                            <p>Location: {{ lesson.location }}</p>
+                            <p>Price: {{ lesson.price }} AED</p>
+                            <button @click="removeFromCart(lesson)">Remove from Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <p>Your shopping cart is empty.</p>
+                </div>
+                <h2>Checkout</h2>
+                <p v-for="field in orderFields" :key="field.label">
+                    <strong>{{ field.label }}:</strong>
+                    <input v-model.trim="order[field.key]" :type="field.type" />
+                </p>
+                
+                <h2>Order Information</h2>
+                <p v-for="field in orderFields" :key="field.label">{{ field.label }}: {{ order[field.key] }}</p>
+
+                <button @click="placeOrder" :disabled="!isValidOrder">Place Order</button>
+            </div>
+        </main>
+    </div>
             
             
