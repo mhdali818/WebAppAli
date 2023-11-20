@@ -39,7 +39,7 @@
     <div id="app">
         <header>
             <h1>{{ WebAppName }}</h1>
-            
+
             <button @click="toggleCheckout" :disabled="showProduct && cart.length === 0" class="checkout-button">
                 <span class="fas fa-cart-plus"></span> Checkout
             </button>
@@ -75,7 +75,7 @@
         </header>
 
         <main>
-            
+
             <!-- Display list of lessons -->
             <div v-if="showProduct">
                 <div class="lesson-square" v-for="(lesson, index) in sortedProducts" :key="lesson.id">
@@ -108,8 +108,8 @@
                 </div>
             </div>
 
-             <!-- Checkout Page -->
-             <div v-else>
+            <!-- Checkout Page -->
+            <div v-else>
                 <h2>Shopping Cart</h2>
                 <div v-if="cart.length > 0">
                     <div v-for="lessonId in cart" :key="lessonId">
@@ -129,7 +129,7 @@
                     <strong>{{ field.label }}:</strong>
                     <input v-model.trim="order[field.key]" :type="field.type" />
                 </p>
-                
+
                 <h2>Order Information</h2>
                 <p v-for="field in orderFields" :key="field.label">{{ field.label }}: {{ order[field.key] }}</p>
 
@@ -137,5 +137,28 @@
             </div>
         </main>
     </div>
-            
-            
+
+    <script type="text/javascript">
+        let store = new Vue({
+            el: '#app',
+            data: {
+                WebAppName: 'After School Wonders',
+                showProduct: true,
+                sortAttribute: 'price',
+                sortOrder: 'asc',
+                searchQuery: '',
+                order: {
+                    Name: '',
+                    Phone: '',
+                },
+                // I'm not binding the values here, I'm just checking for the correct user input
+                orderFields: [
+                    { label: 'Name', key: 'Name', type: 'text' },
+                    { label: 'Phone', key: 'Phone', type: 'number' },
+                ],
+                lessons: lessons,
+                cart: [],
+            }
+        });
+
+    
