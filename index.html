@@ -158,6 +158,57 @@
                 ],
                 lessons: lessons,
                 cart: [],
+            },
+            methods: {
+                addToCart(lesson) {
+                    this.cart.push(lesson.id);
+                },
+                sortLessons() {
+                    if (this.sortAttribute) {
+                        this.lessons.sort((a, b) => {
+                            const order = this.sortOrder === 'asc' ? 1 : -1;
+                            return a[this.sortAttribute].localeCompare(b[this.sortAttribute]) * order;
+                        });
+                    }
+                },
+                toggleCheckout() {
+                    this.showProduct = !this.showProduct;
+                },
+                removeFromCart(lesson) {
+                    const index = this.cart.indexOf(lesson.id);
+                    if (index !== -1) {
+                        this.cart.splice(index, 1);
+                    }
+                },
+                placeOrder() {
+                    alert('Order Placed Successfully!');
+                },
+                canAddToCart(lesson) {
+                    return lesson.availableInventory > this.getCartCount(lesson.id);
+                },
+
+                getCartCount(id) {
+                    return this.cart.filter(itemId => itemId === id).length;
+                },
+                validateName() {
+                    const nameRegex = /^[a-zA-Z\s]+$/;
+                    return nameRegex.test(this.order.Name);
+                },
+                validatePhone() {
+                    const phoneRegex = /^\d{6,}$/;
+                    return phoneRegex.test(this.order.Phone);
+                },
+                searchLessons(query) {
+                    return this.lessons.filter(lesson =>
+                        lesson.subject.toLowerCase().includes(query.toLowerCase()) ||
+                        lesson.location.toLowerCase().includes(query.toLowerCase())
+                    );
+                },
+                updateSearch() {
+                    this.$nextTick(() => {
+                        this.$forceUpdate();
+                    });
+                },
             }
         });
 
