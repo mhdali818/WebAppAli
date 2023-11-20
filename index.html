@@ -34,3 +34,15 @@
         }
     </style>
 </head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1>{{ WebAppName }}</h1>
+            
+            <button @click="toggleCheckout" :disabled="showProduct && cart.length === 0" class="checkout-button">
+                <span class="fas fa-cart-plus"></span> Checkout
+            </button>
+
+            
+            
