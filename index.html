@@ -209,7 +209,55 @@
                         this.$forceUpdate();
                     });
                 },
-            }
-        });
+            },
+            computed: {
+                cartCount() {
+                    return this.cart.length || '';
+                },
+                sortedProducts() {
+                    const filteredAndSorted = [...this.lessons].filter(lesson =>
+                        lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        lesson.location.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
 
-    
+                    if (this.sortAttribute) {
+                        return filteredAndSorted.sort((a, b) => {
+                            const order = this.sortOrder === 'asc' ? 1 : -1;
+
+                            if (this.sortAttribute === 'spaces') {
+                                const spacesA = a.availableInventory - this.getCartCount(a.id);
+                                const spacesB = b.availableInventory - this.getCartCount(b.id);
+                                return (spacesA - spacesB) * order;
+                            } else if (this.sortAttribute === 'price') {
+                                return (a[this.sortAttribute] - b[this.sortAttribute]) * order;
+                            } else if (typeof a[this.sortAttribute] === 'string') {
+                                return a[this.sortAttribute].localeCompare(b[this.sortAttribute]) * order;
+                            } else {
+                                return (a[this.sortAttribute] - b[this.sortAttribute]) * order;
+                            }
+                        });
+                    } else {
+                        return filteredAndSorted;
+                    }
+                },
+                isValidOrder() {
+                    return this.validateName() && this.validatePhone();
+                },
+                filteredLessons() {
+                    const query = this.searchQuery.toLowerCase();
+                    return this.lessons.filter(lesson =>
+                        lesson.subject.toLowerCase().includes(query) ||
+                        lesson.location.toLowerCase().includes(query)
+                    );
+                },
+            },
+            watch: {
+                sortAttribute: 'sortLessons',
+                sortOrder: 'sortLessons',
+            },
+
+        });
+    </script>
+</body>
+
+</html>
