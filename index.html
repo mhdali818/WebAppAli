@@ -73,5 +73,39 @@
             </div>
 
         </header>
+
+        <main>
+            
+            <!-- Display list of lessons -->
+            <div v-if="showProduct">
+                <div class="lesson-square" v-for="(lesson, index) in sortedProducts" :key="lesson.id">
+                    <figure>
+                        <img :src="lesson.image" alt="Product Image">
+                    </figure>
+                    <h2>{{ lesson.subject }}</h2>
+                    <p>Location: {{ lesson.location }}</p>
+                    <p>Price: {{ lesson.price }} AED</p>
+                    <p>Spaces: {{ lesson.spaces - getCartCount(lesson.id) }}</p>
+
+                    <button @click="addToCart(lesson)" :disabled="!canAddToCart(lesson)">
+                        Add to cart
+                    </button>
+                    <br>
+                    <br>
+                    <span v-if="lesson.availableInventory === getCartCount(lesson.id)">
+                        No Spaces Left!
+                    </span>
+                    <span v-else-if="lesson.availableInventory - getCartCount(lesson.id) < 5">
+                        Only {{ lesson.availableInventory - getCartCount(lesson.id) }} Spaces Left!
+                    </span>
+                    <span v-else>
+                        Spaces Available Now!!
+                    </span>
+                    <div>
+                        <span v-for="n in lesson.rating" key="star">★</span>
+                        <span v-for="n in 5 - lesson.rating" key="empty-star">☆</span>
+                    </div>
+                </div>
+            </div>
             
             
