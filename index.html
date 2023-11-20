@@ -43,6 +43,35 @@
             <button @click="toggleCheckout" :disabled="showProduct && cart.length === 0" class="checkout-button">
                 <span class="fas fa-cart-plus"></span> Checkout
             </button>
+            <div>
+                <label>Sort by:</label>
+                <label>
+                    <input type="radio" v-model="sortAttribute" value="subject"> Subject
+                </label>
+                <label>
+                    <input type="radio" v-model="sortAttribute" value="location"> Location
+                </label>
+                <label>
+                    <input type="radio" v-model="sortAttribute" value="price"> Price
+                </label>
+                <label>
+                    <input type="radio" v-model="sortAttribute" value="spaces"> Spaces
+                </label>
+                <br>
+                <label>Order:</label>
+                <label>
+                    <input type="radio" v-model="sortOrder" value="asc"> Ascending
+                </label>
+                <label>
+                    <input type="radio" v-model="sortOrder" value="desc"> Descending
+                </label>
+            </div>
 
+            <div>
+                <label>Search:</label>
+                <input v-model="searchQuery" @input="updateSearch" placeholder="Search lessons..." />
+            </div>
+
+        </header>
             
             
